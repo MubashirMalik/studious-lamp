@@ -5,11 +5,15 @@ const jobSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    jobType:  {
+    mode: {
+        type: String,
+        required: true,
+    },
+    type:  {
         type: String,
         required: true
     },
-    jobEngagement: {
+    engagement: {
         type: String,
         required: true
     }, 
