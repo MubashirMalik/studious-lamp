@@ -28,3 +28,35 @@ exports.getJobs = async (req, res, next) => {
         res.status(500).json({error: "Internal server error"})
     }
 }
+
+exports.getJob = async (req, res, next) => {
+    try {
+        const { jobId } = req.query
+        const job = await Job.findOne({_id: jobId })
+        res.status(200).json(job)
+    } catch (err) {
+        console.log("getJob():", err)
+        res.status(500).json({error: "Internal server error"})
+    }
+}
+
+
+exports.updateJob = async(req, res, next) => {
+    try {
+        const { job } = req.body
+        // create location object inside job
+        job.location = {
+            city: job.city,
+            country: job.country
+        }
+        // delete city and country keys
+        delete job['city']
+        delete job['country']
+
+        const updatedJob = await Job.updateOne({_id: job._id}, { $set: {...job}});
+        res.status(200).json(updatedJob)
+    } catch (err) {
+        console.log("updateJob():", err)
+        res.status(500).json({error: "Internal server error"})
+    }
+}
